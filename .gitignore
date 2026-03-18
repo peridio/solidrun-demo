@@ -1,0 +1,5 @@
+overlay/etc/avocado-conn/config.toml
+
+# Avocado state files
+.avocado-state
+.avocado

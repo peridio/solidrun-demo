@@ -1,0 +1,48 @@
+src_dir: .
+
+supported_targets:
+  - rzv2n-sr-som
+
+distro:
+  release: 2024
+  channel: edge
+
+extensions:
+  weston-demo:
+    version: 2024.1.0
+    summary: weston demo extension
+
+    overlay: overlay
+
+    enable_services:
+      - weston.service
+
+    on_merge:
+      - systemctl restart --no-block weston.service
+
+    on_unmerge:
+      - systemctl stop weston.service
+
+    packages:
+      weston: '*'
+      weston-init: '*'
+      wayland-utils: '*'
+      mesa-megadriver: '*'
+      mesa: '*'
+      adwaita-icon-theme: '*'
+      xcursor-transparent-theme: '*'
+      ca-certificates: '*'
+      ethtool: '*'
+      glib-networking: '*'
+      p11-kit: '*'
+      wpebackend-fdo: '*'
+      wpewebkit: '*'
+      mesa-demos: '*'
+      kmscube: '*'
+      glmark2: '*'
+      weston-examples: '*'
+
+sdk:
+  image: docker.io/avocadolinux/sdk:{{ avocado.distro.release }}-{{ avocado.distro.channel }}
+  packages:
+    avocado-sdk-toolchain: '*'

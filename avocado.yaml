@@ -1,0 +1,65 @@
+supported_targets:
+  - rzv2n-sr-som
+default_target: 'rzv2n-sr-som'
+
+distro:
+  release: 2024
+  channel: edge
+
+runtimes:
+  solidrun:
+    packages:
+      avocado-runtime: '*'
+    extensions:
+      - config-dev
+      - avocado-ext-dev
+      - avocado-ext-sshd-dev
+      - avocado-bsp-{{ avocado.target }}
+      - weston-demo
+
+extensions:
+  avocado-ext-dev:
+    source:
+      type: package
+      version: '*'
+
+  avocado-ext-sshd-dev:
+    source:
+      type: package
+      version: '*'
+
+  avocado-bsp-{{ avocado.target }}:
+    source:
+      type: package
+      version: '*'
+
+  config-dev:
+    version: 2024.1.0
+
+    users:
+      root:
+        password: ''
+
+  weston-demo:
+    source:
+      type: path
+      path: extensions/weston-demo
+
+rootfs:
+  packages:
+    avocado-pkg-rootfs: '*'
+
+initramfs:
+  packages:
+    avocado-pkg-initramfs: '*'
+
+sdk:
+  image: docker.io/avocadolinux/sdk:{{ avocado.distro.release }}-{{ avocado.distro.channel }}
+  container_args:
+    - --privileged
+    - --network=host
+    - -v /dev:/dev
+    - -v /sys:/sys
+
+  packages:
+    avocado-sdk-toolchain: '*'

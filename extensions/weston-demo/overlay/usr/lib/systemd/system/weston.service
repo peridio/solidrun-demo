@@ -1,0 +1,32 @@
+[Unit]
+Description=Weston Wayland compositor
+Documentation=man:weston(1) man:weston.ini(5)
+Requires=systemd-user-sessions.service
+After=systemd-user-sessions.service
+After=plymouth-quit-wait.service
+Wants=dbus.socket
+After=dbus.socket
+Before=graphical.target
+ConditionPathExists=/dev/tty0
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/default/weston
+Environment=XDG_RUNTIME_DIR=/run/weston
+ExecStartPre=/bin/mkdir -p /run/weston
+ExecStart=/usr/bin/weston --modules=systemd-notify.so --idle-time=0
+
+TTYPath=/dev/tty7
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+
+StandardInput=tty-fail
+StandardOutput=journal
+StandardError=journal
+
+UtmpIdentifier=tty7
+UtmpMode=user
+
+[Install]
+WantedBy=graphical.target
